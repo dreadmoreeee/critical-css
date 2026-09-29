@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "critical-css"
+version = "1.0.0"
+description = "Extract above-the-fold CSS with headless Chromium, inline it, and verify the first paint with a pixel comparison."
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Marvin Palencia" }]
+requires-python = ">=3.10"
+dependencies = ["playwright>=1.40", "Pillow>=9"]
+keywords = ["critical-css", "performance", "web-vitals", "lcp", "playwright", "css"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Topic :: Internet :: WWW/HTTP :: Site Management",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=7"]
+
+[project.urls]
+Homepage = "https://github.com/dreadmoreeee/critical-css"
+
+[project.scripts]
+critical-css = "critical_css.cli:main"
+
+[tool.setuptools]
+packages = ["critical_css"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

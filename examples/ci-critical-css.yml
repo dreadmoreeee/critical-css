@@ -1,0 +1,22 @@
+# Example CI job (GitHub Actions syntax). Copy to .github/workflows/ in your
+# own site repository and adapt. It builds critical CSS for a page of the
+# built site served locally and fails if the first paint drifts.
+name: critical-css
+on: [pull_request]
+jobs:
+  critical:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install "critical-css @ git+https://github.com/dreadmoreeee/critical-css"
+      - run: python -m playwright install --with-deps chromium
+      # A local HTML file is served from its folder on a random port.
+      - run: critical-css public/index.html -o critical-out --diff-images --delay 0
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: critical-css
+          path: critical-out/

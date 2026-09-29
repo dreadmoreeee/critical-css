@@ -1,0 +1,65 @@
+/* Fixture stylesheet: every rule is commented with the expected outcome. */
+:root {
+  --brand: #1d6b44;          /* kept: used by .hero through --brand-dark */
+  --brand-dark: var(--brand-deep);
+  --brand-deep: #0f3d26;
+  --accent: #d98e04;         /* kept: used by an inline style attribute */
+  --unused-color: #123456;   /* dropped: never referenced */
+  --space: 16px;             /* kept: used by .hero */
+}
+
+html { font-size: 16px; }
+body { margin: 0; font-family: "Fixture Sans", Arial, sans-serif; color: #222; background: #fafafa; }
+
+@font-face {
+  font-family: "Fixture Sans";   /* kept: used by body */
+  src: local("Arial"), url("../fonts/fixture-sans.woff2") format("woff2");
+  font-display: swap;
+}
+@font-face {
+  font-family: "Footer Serif";   /* dropped: only used below the fold */
+  src: local("Georgia"), url("../fonts/footer-serif.woff2") format("woff2");
+}
+
+.skip-link { position: absolute; left: -9999px; top: 0; }      /* kept */
+.site-header { background: #fff; border-bottom: 1px solid #ddd; }
+.nav { display: block; padding: 8px 16px; }
+.brand { font-weight: 700; color: #111; text-decoration: none; }
+.btn { display: inline-block; margin-left: 12px; color: #1d6b44; }
+.btn:hover { color: #000; }                                     /* dropped: interactive */
+.mobile-menu { display: none; }                                 /* kept: hides an above-the-fold element */
+
+.hero {
+  background: var(--brand-dark);
+  color: #fff;
+  padding: var(--space);
+  animation: fade-in 0.3s ease-out;
+}
+.hero-title::before { content: "> "; color: #9fd9b8; }          /* kept: pseudo-element of a visible element */
+h1, .footer h2 { font-size: 32px; margin: 0 0 8px; }            /* kept, selector list reduced to h1 */
+.lead { font-size: 18px; padding-left: 8px; }
+.card { display: block; background: rgba(255, 255, 255, 0.15); padding: 8px; }
+
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } } /* kept */
+@keyframes spin { to { transform: rotate(360deg); } }           /* dropped */
+
+@supports (display: grid) {
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: calc(var(--space) / 2); }
+}
+
+@media (min-width: 1000px) {
+  .hero { padding: 48px; }                                      /* kept for 1366x768 only */
+  .nav { display: flex; gap: 24px; }
+  .below-wide { color: red; }                                   /* dropped: no such element */
+}
+@media (max-width: 600px) {
+  .hero-title { font-size: 24px; }                              /* kept for 390x844 only */
+}
+@media print {
+  .hero { color: #000; background: none; }                      /* dropped */
+}
+
+.spacer { height: 2000px; }
+.below { padding: 40px; background: url("../img/pattern.png") repeat; }   /* dropped */
+.footer-spinner { width: 20px; height: 20px; animation: spin 1s linear infinite; }  /* dropped */
+.footer { font-family: "Footer Serif", serif; padding: 24px; }   /* dropped */
